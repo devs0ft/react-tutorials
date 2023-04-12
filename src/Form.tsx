@@ -1,54 +1,68 @@
-import { FormEvent, useRef, useState } from "react";
+import { useForm } from "react-hook-form";
+import { useState } from "react";
+import "./form.css";
 import "./App.css";
+import { FormEvent } from "react";
+// interface FormData {
+// 	name: string;
+// 	age: number;
+// }
 
 function Form() {
-	// const nameRef = useRef<HTMLInputElement>(null);
+	const {
+		register,
+		handleSubmit,
+		formState: { errors },
+	} = useForm();
 
-	// const ageRef = useRef<HTMLInputElement>(null);
-
-	// const person = { name: "", age: 0 };
-
-	// const handleSubmit = (e: FormEvent) => {
-	// 	e.preventDefault();
-	// 	if (nameRef.current !== null) person.name = nameRef.current.value;
-	// 	if (ageRef.current !== null) person.age = parseInt(ageRef.current.value);
-
-	// 	console.log(person);
-	// };
-
-	const [person, setPerson] = useState({
-		name: "",
-		age: "",
-	});
-	const handleSubmit = (e: FormEvent) => {
-		e.preventDefault();
-		console.log(person);
-	};
+	// const onSubmit = (data: FormEvent) => console.log(data);
 
 	return (
-		<form action="" className="container">
-			<div className="form">
+		<form
+			action=""
+			className="form"
+			onSubmit={handleSubmit((data) => console.log(data))}
+		>
+			<div className="container">
 				<div>
 					<label htmlFor="">Name</label>
-					{/* <input type=" " ref={nameRef} /> */}
 					<input
-						type="text "
-						onChange={(e) => setPerson({ ...person, name: e.target.value })}
-						value={person.name}
+						{...register("name", { required: true, minLength: 3 })}
+						type="text"
+						id="name"
 					/>
+					{errors.name?.type === "required" && (
+						<p className="text">This field is required</p>
+					)}
+					{errors.name?.type === "minLength" && (
+						<p className="text">Max character is 3 characters</p>
+					)}
 				</div>
 				<div>
 					<label htmlFor="">Age</label>
-					{/* <input type=" " ref={ageRef} /> */}
 					<input
-						type="number "
-						value={person.age}
-						onChange={(e) => setPerson({ ...person, age: e.target.value })}
+						{...register("age", { minLength: 18 })}
+						type="number"
+						id="age"
 					/>
 				</div>
-				<button className="formBtn" onClick={handleSubmit}>
-					Submit
-				</button>
+				<div>
+					<label htmlFor="">Phone</label>
+					<input
+						{...register("phone", { minLength: 18 })}
+						type="number"
+						id="age"
+					/>
+				</div>
+				<div>
+					<label htmlFor="">Email</label>
+					<input
+						{...register("email", { required: true })}
+						type="text"
+						id="age"
+					/>
+				</div>
+				<button className="formBtn">Submit</button>
 			</div>
 		</form>
 	);

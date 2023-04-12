@@ -1,11 +1,15 @@
-import Form from "./Form";
-import Forms2 from "./Forms2";
+// import Form from "./Form";
+
+import { useState } from "react";
+import Temp from "./Temp";
+// import Form from "./Form";
 
 function App() {
 	return (
 		<div>
-			<Forms2 />
 			{/* <Form /> */}
+
+			<Temp />
 		</div>
 	);
 }
